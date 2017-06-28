@@ -11,10 +11,11 @@
 #                       to the compare function
 # 6/27/17    Tim Liu    wrote bazi_ad to handle bazi wraparound
 # 6/27/17    Tim Liu    changed name to "util.py" for utilities
+# 6/27/17    Tim Liu    updated HOME to reflect new file system
 
 
 # home directory
-HOME = '/Users/Timothy/Desktop/SURF2017/'
+HOME = '/Users/Timothy/Desktop/SURF2017/eew_timliu'
 
 import os
 

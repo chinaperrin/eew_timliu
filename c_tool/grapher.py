@@ -6,6 +6,7 @@
 # Revision History
 # 6/27/17    Tim Liu    started file
 # 6/27/17    Tim Liu    wrote one_d
+# 6/27/17    Tim Liu    updated HOME to reflect new file system
 #
 # Table of Contents
 # one_d    plots one dimensional data
@@ -20,7 +21,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-HOME = '/Users/Timothy/Desktop/SURF2017/'
+HOME = '/Users/Timothy/Desktop/SURF2017/eew_timliu'
 
 
 def one_d(err, title, x_label, subplot=0, color = 'deepskyblue', path = 'errors'):

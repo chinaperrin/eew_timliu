@@ -1,0 +1,7 @@
+Extract Bazi Outline
+
+Want a list of back azimuths for:
+
+True Baz
+Each technique (x4)
+At each time (x15)

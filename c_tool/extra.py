@@ -5,6 +5,7 @@
 # 6/26/17    Tim Liu    started file
 # 6/26/17    Tim Liu    wrote main and gen_script
 # 6/27/17    Tim Liu    updated comments and renamed "main" to "extract"
+# 6/27/17    Tim Liu    updated HOME to reflect new directory structure
 #
 # Table of Contents
 # extract     extract data with certain object field under a specified name
@@ -13,6 +14,9 @@
 import os
 import sys
 import matlab.engine
+
+HOME = '/Users/Timothy/Desktop/SURF2017/eew_timliu'
+
 
 
 def extract(var, name, i):
@@ -26,14 +30,14 @@ def extract(var, name, i):
     gen_script(var, name, i)    #call function to generate extraction script
     
     #go to directory with extraction script
-    os.chdir('/Users/Timothy/Desktop/SURF2017/tracelists/code/')
+    os.chdir(os.path.join(HOME, 'code'))
     
     eng = matlab.engine.start_matlab()
     eng.extractor(nargout=0)           #run extractor script
         
     os.remove("extractor.m")           #delete the script
     
-    os.chdir('/Users/Timothy/Desktop/SURF2017/c_tool') #switch back to directory
+    os.chdir(os.path.join(HOME, 'c_tool')) #switch back to directory
         
     return
 
