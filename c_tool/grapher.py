@@ -7,9 +7,11 @@
 # 6/27/17    Tim Liu    started file
 # 6/27/17    Tim Liu    wrote one_d
 # 6/27/17    Tim Liu    updated HOME to reflect new file system
+# 6/28/17    Tim Liu    wrote two_d
 #
 # Table of Contents
 # one_d    plots one dimensional data
+# two_d    plots two dimensional data as a scatter plot
 # f2l      converts a file into a list of data
 # scale    creates bin sizes and bin range for data
 
@@ -62,6 +64,43 @@ def one_d(err, title, x_label, subplot=0, color = 'deepskyblue', path = 'errors'
     os.chdir(os.path.join(HOME, 'c_tool')) #return to directory
     
     #function returns - does not actually show plot!
+    return
+
+def two_d(varx, vary, title, xlab, ylab, subplot=0, color = 'deepskyblue', pathy = 'errors'):
+    '''plots two different variables
+    inputs: varx - .txt file with x variable to plot
+            vary - .txt file with y variable to plot
+            xlab - label for x axis
+            ylab - label for y axis
+            subplot - index of subplot if multiple plots in figure
+            color - color of graph; default set
+            pathx - path to x variable'''
+    
+    #find data to x variable
+    os.chdir(os.path.join(HOME, 'ex_data', varx[:-7]))
+    datax = f2l(varx)    
+    
+    #find data to y variable
+    os.chdir(os.path.join(HOME, pathy))   
+    datay = f2l(vary)                 #convert file to a list  
+    
+    #create figure
+    plt.figure(vary[:-4] + varx[:-4])
+    if subplot != 0:
+        plt.subplot(subplot)   #optionally make subplots    
+        
+        
+    plt.scatter(datax, datay, color = color, s = 0.1)
+    plt.title(title, fontsize = 18)    
+    
+    plt.ylabel(ylab, fontsize = 18)
+    plt.xlabel(xlab, fontsize = 18)    
+    plt.grid(True)
+
+    os.chdir(os.path.join(HOME, 'g_out'))  #directory to dump images
+    plt.savefig(vary[:-4] + varx[:-4])
+    os.chdir(os.path.join(HOME, 'c_tool')) #return to directory
+            
     return
     
 def f2l(f):

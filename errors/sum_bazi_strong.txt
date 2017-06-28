@@ -1,0 +1,120 @@
+onsiteBazi_sentype_is_LN_01.txt
+Mean Error: 84.2020
+deichmann_sentype_is_LN_01.txt
+Mean Error: 81.3129
+sac_sentype_is_LN_01.txt
+Mean Error: 89.8394
+la05_sentype_is_LN_01.txt
+Mean Error: 92.5613
+onsiteBazi_sentype_is_LN_02.txt
+Mean Error: 80.6298
+deichmann_sentype_is_LN_02.txt
+Mean Error: 82.6684
+sac_sentype_is_LN_02.txt
+Mean Error: 89.9369
+la05_sentype_is_LN_02.txt
+Mean Error: 92.4711
+onsiteBazi_sentype_is_LN_03.txt
+Mean Error: 80.0137
+deichmann_sentype_is_LN_03.txt
+Mean Error: 83.2671
+sac_sentype_is_LN_03.txt
+Mean Error: 89.3412
+la05_sentype_is_LN_03.txt
+Mean Error: 92.4984
+onsiteBazi_sentype_is_LN_04.txt
+Mean Error: 79.5705
+deichmann_sentype_is_LN_04.txt
+Mean Error: 84.0007
+sac_sentype_is_LN_04.txt
+Mean Error: 88.9809
+la05_sentype_is_LN_04.txt
+Mean Error: 92.4994
+onsiteBazi_sentype_is_LN_05.txt
+Mean Error: 79.2674
+deichmann_sentype_is_LN_05.txt
+Mean Error: 84.2542
+sac_sentype_is_LN_05.txt
+Mean Error: 89.1115
+la05_sentype_is_LN_05.txt
+Mean Error: 92.5079
+onsiteBazi_sentype_is_LN_06.txt
+Mean Error: 79.0750
+deichmann_sentype_is_LN_06.txt
+Mean Error: 84.4978
+sac_sentype_is_LN_06.txt
+Mean Error: 89.3505
+la05_sentype_is_LN_06.txt
+Mean Error: 92.5165
+onsiteBazi_sentype_is_LN_07.txt
+Mean Error: 78.7547
+deichmann_sentype_is_LN_07.txt
+Mean Error: 84.7417
+sac_sentype_is_LN_07.txt
+Mean Error: 89.4771
+la05_sentype_is_LN_07.txt
+Mean Error: 92.5282
+onsiteBazi_sentype_is_LN_08.txt
+Mean Error: 79.1041
+deichmann_sentype_is_LN_08.txt
+Mean Error: 84.4327
+sac_sentype_is_LN_08.txt
+Mean Error: 89.5705
+la05_sentype_is_LN_08.txt
+Mean Error: 92.5179
+onsiteBazi_sentype_is_LN_09.txt
+Mean Error: 79.3634
+deichmann_sentype_is_LN_09.txt
+Mean Error: 84.2033
+sac_sentype_is_LN_09.txt
+Mean Error: 89.4151
+la05_sentype_is_LN_09.txt
+Mean Error: 92.5048
+onsiteBazi_sentype_is_LN_10.txt
+Mean Error: 79.5530
+deichmann_sentype_is_LN_10.txt
+Mean Error: 84.0878
+sac_sentype_is_LN_10.txt
+Mean Error: 89.5943
+la05_sentype_is_LN_10.txt
+Mean Error: 92.4911
+onsiteBazi_sentype_is_LN_11.txt
+Mean Error: 79.6142
+deichmann_sentype_is_LN_11.txt
+Mean Error: 83.9126
+sac_sentype_is_LN_11.txt
+Mean Error: 89.5767
+la05_sentype_is_LN_11.txt
+Mean Error: 92.4807
+onsiteBazi_sentype_is_LN_12.txt
+Mean Error: 79.8205
+deichmann_sentype_is_LN_12.txt
+Mean Error: 83.7839
+sac_sentype_is_LN_12.txt
+Mean Error: 89.5423
+la05_sentype_is_LN_12.txt
+Mean Error: 92.4735
+onsiteBazi_sentype_is_LN_13.txt
+Mean Error: 80.0339
+deichmann_sentype_is_LN_13.txt
+Mean Error: 83.7430
+sac_sentype_is_LN_13.txt
+Mean Error: 89.5540
+la05_sentype_is_LN_13.txt
+Mean Error: 92.4684
+onsiteBazi_sentype_is_LN_14.txt
+Mean Error: 80.1075
+deichmann_sentype_is_LN_14.txt
+Mean Error: 83.6760
+sac_sentype_is_LN_14.txt
+Mean Error: 89.5230
+la05_sentype_is_LN_14.txt
+Mean Error: 92.4639
+onsiteBazi_sentype_is_LN_15.txt
+Mean Error: 80.1623
+deichmann_sentype_is_LN_15.txt
+Mean Error: 83.6076
+sac_sentype_is_LN_15.txt
+Mean Error: 89.5320
+la05_sentype_is_LN_15.txt
+Mean Error: 92.4597

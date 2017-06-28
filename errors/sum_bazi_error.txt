@@ -1,0 +1,120 @@
+onsiteBazi_01.txt
+Mean Error: 83.2820
+deichmann_01.txt
+Mean Error: 86.7643
+sac_01.txt
+Mean Error: 89.3552
+la05_01.txt
+Mean Error: 97.7310
+onsiteBazi_02.txt
+Mean Error: 80.8062
+deichmann_02.txt
+Mean Error: 87.8816
+sac_02.txt
+Mean Error: 87.2885
+la05_02.txt
+Mean Error: 98.4570
+onsiteBazi_03.txt
+Mean Error: 80.1121
+deichmann_03.txt
+Mean Error: 88.2753
+sac_03.txt
+Mean Error: 86.7117
+la05_03.txt
+Mean Error: 98.5992
+onsiteBazi_04.txt
+Mean Error: 79.7346
+deichmann_04.txt
+Mean Error: 88.8798
+sac_04.txt
+Mean Error: 86.7321
+la05_04.txt
+Mean Error: 98.5745
+onsiteBazi_05.txt
+Mean Error: 79.4178
+deichmann_05.txt
+Mean Error: 89.2323
+sac_05.txt
+Mean Error: 87.0648
+la05_05.txt
+Mean Error: 98.5909
+onsiteBazi_06.txt
+Mean Error: 79.1744
+deichmann_06.txt
+Mean Error: 89.4341
+sac_06.txt
+Mean Error: 86.9463
+la05_06.txt
+Mean Error: 98.6148
+onsiteBazi_07.txt
+Mean Error: 78.9355
+deichmann_07.txt
+Mean Error: 89.8256
+sac_07.txt
+Mean Error: 86.6629
+la05_07.txt
+Mean Error: 98.5832
+onsiteBazi_08.txt
+Mean Error: 79.3012
+deichmann_08.txt
+Mean Error: 89.6040
+sac_08.txt
+Mean Error: 86.6471
+la05_08.txt
+Mean Error: 98.5317
+onsiteBazi_09.txt
+Mean Error: 79.6577
+deichmann_09.txt
+Mean Error: 89.6678
+sac_09.txt
+Mean Error: 86.5529
+la05_09.txt
+Mean Error: 98.4859
+onsiteBazi_10.txt
+Mean Error: 79.8172
+deichmann_10.txt
+Mean Error: 89.6122
+sac_10.txt
+Mean Error: 86.5589
+la05_10.txt
+Mean Error: 98.4414
+onsiteBazi_11.txt
+Mean Error: 80.1034
+deichmann_11.txt
+Mean Error: 89.4133
+sac_11.txt
+Mean Error: 86.6390
+la05_11.txt
+Mean Error: 98.4064
+onsiteBazi_12.txt
+Mean Error: 80.3571
+deichmann_12.txt
+Mean Error: 89.3638
+sac_12.txt
+Mean Error: 86.7245
+la05_12.txt
+Mean Error: 98.3727
+onsiteBazi_13.txt
+Mean Error: 80.5324
+deichmann_13.txt
+Mean Error: 89.3554
+sac_13.txt
+Mean Error: 86.7779
+la05_13.txt
+Mean Error: 98.3408
+onsiteBazi_14.txt
+Mean Error: 80.6460
+deichmann_14.txt
+Mean Error: 89.3224
+sac_14.txt
+Mean Error: 86.8086
+la05_14.txt
+Mean Error: 98.3140
+onsiteBazi_15.txt
+Mean Error: 80.7195
+deichmann_15.txt
+Mean Error: 89.3544
+sac_15.txt
+Mean Error: 86.8644
+la05_15.txt
+Mean Error: 98.2901

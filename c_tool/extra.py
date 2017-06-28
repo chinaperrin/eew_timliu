@@ -48,7 +48,7 @@ def gen_script(var, name, i):
            i - number of different subfields
     output: matlab script for extracting data'''
     
-    os.chdir('/Users/Timothy/Desktop/SURF2017/tracelists/code/')
+    os.chdir(os.path.join(HOME, 'code'))
     
     temp = open('extract_temp.m', 'r')    #open extractor template
     
@@ -73,6 +73,6 @@ def gen_script(var, name, i):
     extract.close()
     
     #return to original directory
-    os.chdir('/Users/Timothy/Desktop/SURF2017/c_tool')
+    os.chdir(os.path.join(HOME, 'c_tool'))
     
     return

@@ -12,12 +12,17 @@
 # 6/27/17    Tim Liu    wrote bazi_ad to handle bazi wraparound
 # 6/27/17    Tim Liu    changed name to "util.py" for utilities
 # 6/27/17    Tim Liu    updated HOME to reflect new file system
+# 6/27/17    Tim Liu    compare also writes file with absolute value errors
+# 6/28/17    Tim Liu    compare can optionally write to summary file
+# 6/28/17    Tim Liu    fixed bug where compare overwrote summary file
+# 6/28/17    Tim Liu    rewrote compare to enhance speed
 
 
 # home directory
 HOME = '/Users/Timothy/Desktop/SURF2017/eew_timliu'
 
 import os
+import numpy as np
 
 def separ(cond, value, single, prop):
     '''separator function. Creates a subset of a single data file with
@@ -50,7 +55,7 @@ def separ(cond, value, single, prop):
     if cond == 1:
         keep = [i for i in range(len(prop_list)) if float(prop_list[i][:-1]) > value]
     if cond == 2:
-        keep = [i for i in range(len(prop_list)) if prop_list[i][:-1] == value]
+        keep = [i for i in range(len(prop_list)) if prop_list[i][:-1] in value]
     else:
         print("Invalid Condition!!")
         return
@@ -61,11 +66,22 @@ def separ(cond, value, single, prop):
     
     #make new directory if it doesn't already exist
     if not os.path.exists(fpath):
-        os.makedirs(fpath)
-        
+        os.makedirs(fpath)    
     os.chdir(fpath)
     #create the new list of data that meets set condition
-    n_list = [s_list[i] for i in range(len(s_list)) if i in keep]
+    #n_list = [s_list[i] for i in range(len(s_list)) if i in keep
+    
+    n_list = []
+    
+    for i in range(len(s_list)):
+        if len(keep) == 0:
+            break        
+        if i == keep[0]:
+            n_list.append(s_list[i])
+            del keep[0]
+
+        
+        
     #new file that's subset of original single
     newf = open(single[:-7] +'_' + prop[:-7] + '_' + con_map[cond] +\
                 '_' + value + '_'+ single[-6:-4] + '.txt', 'w')
@@ -74,9 +90,10 @@ def separ(cond, value, single, prop):
     newf.close()
     #change directory back to where we started
     os.chdir(os.path.join(HOME, 'c_tool'))
+    
     return
 
-def compare(est, act, comp = 0):
+def compare(est, act, comp = 0, sum_file = ''):
     '''compares the estimated and actual values of some parameter
     inputs: est - file of estimated values
             act - file of actual values
@@ -99,19 +116,35 @@ def compare(est, act, comp = 0):
     af.close()
     #directory to store error files
     os.chdir(os.path.join(HOME, 'errors'))
-    erf = open(est[:-4] + '_err.txt', 'w')    
+    erf = open(est[:-4] + '_err.txt', 'w')
+    erfa = open(est[:-4] + '_abs_err.txt', 'w')
     e_list = [(eflt[i] - aflt[i]) for i in range(len(eflt))]
     
     #do additional computations if spcified
     if comp == 1:             #1 indicates handle bazi wraparound
         e_list = bazi_ad(e_list)
         
-    e_list = ['%.4f\n' %x for x in e_list]  #write as a string
+    abs_list = [abs(x) for x in e_list]        #find absolute values        
+    ea_list = ['%.4f\n' %x for x in abs_list]  #write absolute values
+    e_list = ['%.4f\n' %x for x in e_list]     #write as a string
+    
     for line in e_list:
         erf.write(line)
     erf.close()
     
-    os.chdir(os.path.join(HOME, 'laz'))   #return to where we started
+    for line in ea_list:
+        erfa.write(line)
+    erfa.close()
+    
+    #write to summary file - optional
+    if sum_file != '':
+        s_file = open(sum_file, 'a')
+        s_file.write('%s\n' %est)
+        s_file.write('Mean Error: %.4f\n'%np.mean(abs_list))
+        s_file.close()
+        
+    
+    os.chdir(os.path.join(HOME, 'c_tool'))   #return to where we started
     
     return
 

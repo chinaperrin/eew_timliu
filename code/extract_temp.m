@@ -3,7 +3,7 @@ load_traceList_basic;
 currentfolder = pwd;
 name = Q;  %replace Q with variable name
 LEN = J;   %replace 'J' with number of variable subfields
-cd '../../ex_data'
+cd '../ex_data'
 mkdir(name)
 cd(name)
 for i = 1:LEN
