@@ -1,0 +1,31 @@
+How to compute waveform azimuth in realt time
+
+1. NDs method
+az(i)   = atan(-ev_mean/-nv_mean); (where ev_mean and nv_mean are the mean of the dot product of horizontal and vertical components since the p-pick)
+
+2. backazimuth from the eigentvectors of the covariance matrix (horizontal components only)
+[eVal1,eVal2,eVect1,eVect2] = principal_component_2D(E(i-tw_az:i),N(i-tw_az:i));
+
+3. new method: find raidal and transversal comps by rotating sesimogram until high freqs are maximal on (radial) and low freqs are maximal on (transversal) 
+
+4. Lockman and Allen, 2005, BSSA
+
+
+SCRIPTS
+-------
+back_azimuth.m  Main script that goes over list of records and tries different
+                methods
+
+azimuth_incidence.m Modified script from Nico DeichmaeIdx's incidangle.m
+
+realtime_directP.m
+
+
+azimuth_incidence.m (azimuth_incidence_org.m)
+
+find_corecs_scsn.m
+
+get_backAzimuth.m
+
+harmonise_signal_times.m
+

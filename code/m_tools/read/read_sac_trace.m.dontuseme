@@ -1,0 +1,31 @@
+function [sraw,t,sr] = read_sac_trace(traceFullName)
+
+%   *  *  *  *  *  *  ******
+% Read sac-trace with RSAC.m
+%   *  *  *  *  *  *  ******
+
+% 1. Loads sac-trace
+% 2. Clears out NANs (is that done right? What if gaps ...?)
+% 3. Find sampling rate
+
+
+% 1. Load trace
+wform    = rsac(traceFullName);
+t        = wform(:,1);     % Read raw waveform, cut out NaNs and modify first
+sraw     = wform(:,2);     % <nrep> - 1 samples to have the same value as the
+
+
+% 2. Clear out NANs
+idxNum = ~isnan(t);
+if (numel(idxNum)~=numel(sraw))
+    fprintf(1,'\n\t8ung: Some NaN-values have been removed, check!\n\n')
+end
+t      = t(idxNum);
+sraw   = sraw(idxNum);
+
+
+% 3. Find sampling rate
+ns       = numel(sraw);
+t_length = max(t) - min(t);
+sInt     = t_length/(ns-1); % Sampling interval
+sr       = round(1/sInt);   % Sampling rate

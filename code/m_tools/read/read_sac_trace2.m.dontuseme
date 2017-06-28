@@ -1,0 +1,48 @@
+function [sraw,t,sr,flgIssue] = read_sac_trace2(traceFullName)
+
+% Read sac-trace with READSAC.m
+%
+% If waveform is not found, returns empty arrays
+% If waveform is not ok, returns the read values, but raises flgIssue
+% menandrin@gmail.com, 130304
+
+global o
+flgSkip = false;
+
+% Get non-available waveforms from bigstar?
+if ~exist(traceFullName,'file')
+    if o.scp_wforms
+        scp_wform(traceFullName)
+    else
+        fprintf(1,'Waveform not found. Switch o.scp_wforms on if you want to download it from bigstar\n')
+        flgSkip = true;
+    end
+end
+
+if ~flgSkip
+    % Read data
+    S    = readsac(traceFullName);
+    sraw = S.DATA1;
+    dt   = roundn(S.DELTA,-3);
+    sr   = 1/dt;
+    ts   = roundn(S.B,-4);
+    te   = roundn(S.E,-4);
+    t    = (ts:dt:te)';
+    
+    
+    % Test for issues
+    ns = numel(sraw);
+    nt = numel(t);
+    if ~isequal(ns,nt)
+        flgIssue = true;
+        fprintf(1,'\n\t\tns ~= nt, something wrong with waveform, skip.\n')
+    else
+        flgIssue = false;
+    end
+    
+else
+    sraw     = [];
+    t        = [];
+    sr       = [];
+    flgIssue = true;
+end

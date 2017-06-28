@@ -1,0 +1,92 @@
+function [baseName,fileName,dirName,orntCode] = get_nga_basename(rawName)
+
+% IN    rawName  = wform file-name as written in NGA-Flatfile, 2005
+%
+% OUT   fileName = wform file-name without directory-name and extension
+%       baseName = file-name without NGA orientation code
+%       dirName  = name of NGA-subdirectory where wform is stored
+%       orntCode = assigned orientation code: if original filename contains
+%                  ornt-info in form of azimuth (3 digits), orntCode
+%                  corresponds to these digits. If not
+%                  -'999' is assigned if it's clearly a N/S or S/N trace
+%                  -'888' is assigned if it's clearly a E/W or W/E trace
+%                  -'777' is assigned if it's some other horizontal trace
+%                  -'V'   is assigned if it's a vertical trace
+
+nc = 3;   % Default value, in case no orntCode can be identified
+np = 0;   % Nr. of times a horizontal name has been processed (to detect multiple processings = error)
+
+
+
+% 1. Preprocess name: trim spaces, replace backslashes and remove extensions
+rawName2 = strrep(rawName,'\','/');
+tmp      = regexp(rawName2,'\/','split');
+dirName  = tmp{1};
+fileName = strrep(tmp{2},   '.at2','');
+fileName = strrep(fileName, '.AT2','');
+
+
+% 2. Detect orientation code and baseName (= name without orientation code)
+% Vertical    orientation codes:      -UP. -V1. DN. DWN. --Z. --V. -V. 
+% NS/SN       orientation codes:      -N. NS. -NS.
+% EW/WE           "         "  :      -WE. -E. 
+% other horizontal    "   "    :      [0-9][0-9][0-9]. -TR -LN -T1 -L1 --X --Y
+
+% a. vertical    -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+z_orntCodes = {'-UP';'-V1';'DN';'DWN';'--Z';'--V';'-V'};
+z_match     = regexp(fileName(end-2:end),z_orntCodes);
+z_idx       = find(cellfun(@(x) ~isempty(x), z_match));
+if (~isempty(z_idx))
+    code     = z_orntCodes{z_idx};
+    orntCode = 'V';
+    nc       = numel(code);
+    np       = np+1;
+end
+
+
+% b. horizontal     -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+hn_orntCodes = {'-NS';'-SN';'NS';'SN';'-N';'-S'};         % e/w orientations
+he_orntCodes = {'-EW';'-WE';'EW';'WE';'-W';'-E'};         % n/s orientations
+ho_orntCodes = {'-TR';'-LN';'-T1';'-L1';'--X';'--Y'};     % other (ambiguous) horizontal orientations
+ha_orntCodes = {'\d\d\d'};                                  % Code in the form of an azimuth (e.g. '180' or '090')
+
+hn_match = regexp(fileName(end-2:end),hn_orntCodes);
+he_match = regexp(fileName(end-2:end),he_orntCodes);
+ho_match = regexp(fileName(end-2:end),ho_orntCodes);
+ha_match = regexp(fileName(end-2:end),ha_orntCodes);
+
+hn_idx = find(cellfun(@(x) ~isempty(x), hn_match));
+he_idx = find(cellfun(@(x) ~isempty(x), he_match));
+ho_idx = find(cellfun(@(x) ~isempty(x), ho_match));
+ha_idx = find(cellfun(@(x) ~isempty(x), ha_match));
+
+if (~isempty(hn_idx))
+    code     = hn_orntCodes{hn_idx};
+    orntCode = '999';
+    nc       = numel(code);
+    np       = np+1;
+end
+if (~isempty(he_idx))
+    code     = he_orntCodes{he_idx};
+    orntCode = '888';
+    nc       = numel(code);
+    np       = np+1;
+end
+if (~isempty(ho_idx))
+    code     = ho_orntCodes{ho_idx};
+    strng    = regexpi(code,'[a-z]+','match');
+    orntCode = strcat(strng{1},'_777');
+    nc       = numel(code);
+    np       = np+1;
+end
+if (~isempty(ha_idx))
+    orntCode = fileName(end-2:end);
+    nc       = 3;
+    np       = np+1;
+end
+
+if (np>1) fprintf(1,'8UNG: fileName has matched more than one pattern. WHATNOW?\n'); pause; end
+if (np==0); orntCode='noClue';end
+
+% 3. Find file by searching for baseName
+baseName = fileName(1:end-nc);

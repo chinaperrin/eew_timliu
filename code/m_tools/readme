@@ -1,0 +1,9 @@
+PLOTS
+=====
+
+plotTrace.m				used e.g. in filterBank_jp.m, plots output of filter bank
+plotSpect				used e.g. in filterBank_jp.m, plots max amplitudes
+
+plotTraceSummary_jp.m 			plots any Japanese strong motion record in acceleration, velocity and displacement, all three components, as well as some functions of the waveform, e.g. CAV
+plotTraceMap_jp.m			finds all other traces for same event and plots a map, showing from which stations there is a record in GlobalList
+

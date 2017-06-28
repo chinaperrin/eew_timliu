@@ -1,0 +1,135 @@
+1c1
+< function [s,meta] = read_ascii_wform_nzvol2(traceFullName)
+---
+> function [s,meta] = read_ascii_wform_nzvol1(traceFullName)
+46c46
+< meta.record.sr     = 1/str2double(ln11{5});
+---
+> meta.record.sr     = 1/str2double(ln11{11});
+57,60c57,60
+< meta.record.pgv  = str2double(ln15{3});
+< meta.record.tpgv = str2double(ln15{6});
+< meta.record.pgd  = str2double(ln16{3});
+< meta.record.tpgd = str2double(ln16{6});
+---
+> % meta.record.pgv  = str2double(ln15{3});
+> % meta.record.tpgv = str2double(ln15{6});
+> % meta.record.pgd  = str2double(ln16{3});
+> % meta.record.tpgd = str2double(ln16{6});
+89c89
+< dts             = etime(datevec(ts),datevec(t0))-dt_prepended;
+---
+> dts             = etime(datevec(ts),datevec(t0))+dt_prepended;
+117,122c117,124
+< sraw   = str2num(cell2mat(thelines(nvs:nve)));
+< vel.h1 = reshape(sraw',nlv*ncol,1);
+< nspare = rem(nv,10);   % If last line is not fully populated ...
+< if nspare~=0; nve      = nve+1; 
+<               lastline = str2num(cell2mat(thelines(nve)))';
+<               vel.h1   = [vel.h1; lastline];
+---
+> if nve>nvs
+>     sraw   = str2num(cell2mat(thelines(nvs:nve)));
+>     vel.h1 = reshape(sraw',nlv*ncol,1);
+>     nspare = rem(nv,10);   % If last line is not fully populated ...
+>     if nspare~=0; nve      = nve+1;
+>         lastline = str2num(cell2mat(thelines(nve)))';
+>         vel.h1   = [vel.h1; lastline];
+>     end
+124c126
+< 
+---
+>     
+129,134c131,138
+< sraw   = str2num(cell2mat(thelines(nds:nde)));
+< dsp.h1 = reshape(sraw',nld*ncol,1);
+< nspare = rem(nd,10);   % If last line is not fully populated ...
+< if nspare~=0; nde      = nde+1; 
+<               lastline = str2num(cell2mat(thelines(nde)))';
+<               dsp.h1   = [dsp.h1; lastline];
+---
+> if nde>nds
+>     sraw   = str2num(cell2mat(thelines(nds:nde)));
+>     dsp.h1 = reshape(sraw',nld*ncol,1);
+>     nspare = rem(nd,10);   % If last line is not fully populated ...
+>     if nspare~=0; nde      = nde+1;
+>         lastline = str2num(cell2mat(thelines(nde)))';
+>         dsp.h1   = [dsp.h1; lastline];
+>     end
+139d142
+< 
+168,173c171,178
+< sraw   = str2num(cell2mat(thelines(nvs2:nve2)));
+< vel.h2 = reshape(sraw',nlv2*ncol,1);
+< nspare = rem(nv2,10);   % If last line is not fully populated ...
+< if nspare~=0; nve2      = nve2+1; 
+<               lastline = str2num(cell2mat(thelines(nve2)))';
+<               vel.h2   = [vel.h2; lastline];
+---
+> if nve2>nvs2
+>     sraw   = str2num(cell2mat(thelines(nvs2:nve2)));
+>     vel.h2 = reshape(sraw',nlv2*ncol,1);
+>     nspare = rem(nv2,10);   % If last line is not fully populated ...
+>     if nspare~=0; nve2      = nve2+1;
+>         lastline = str2num(cell2mat(thelines(nve2)))';
+>         vel.h2   = [vel.h2; lastline];
+>     end
+180,185c185,192
+< sraw   = str2num(cell2mat(thelines(nds2:nde2)));
+< dsp.h2 = reshape(sraw',nld2*ncol,1);
+< nspare = rem(nd2,10);   % If last line is not fully populated ...
+< if nspare~=0; nde2     = nde2+1; 
+<               lastline = str2num(cell2mat(thelines(nde2)))';
+<               dsp.h2   = [dsp.h2; lastline];
+---
+> if nde2>nds2
+>     sraw   = str2num(cell2mat(thelines(nds2:nde2)));
+>     dsp.h2 = reshape(sraw',nld2*ncol,1);
+>     nspare = rem(nd2,10);   % If last line is not fully populated ...
+>     if nspare~=0; nde2     = nde2+1;
+>         lastline = str2num(cell2mat(thelines(nde2)))';
+>         dsp.h2   = [dsp.h2; lastline];
+>     end
+218,223c225,233
+< sraw   = str2num(cell2mat(thelines(nvs3:nve3)));
+< vel.z  = reshape(sraw',nlv3*ncol,1);
+< nspare = rem(nv3,10);   % If last line is not fully populated ...
+< if nspare~=0; nve3     = nve3+1; 
+<               lastline = str2num(cell2mat(thelines(nve3)))';
+<               vel.z   = [vel.z; lastline];
+---
+> if nve3>nvs3
+>     
+>     sraw   = str2num(cell2mat(thelines(nvs3:nve3)));
+>     vel.z  = reshape(sraw',nlv3*ncol,1);
+>     nspare = rem(nv3,10);   % If last line is not fully populated ...
+>     if nspare~=0; nve3     = nve3+1;
+>         lastline = str2num(cell2mat(thelines(nve3)))';
+>         vel.z   = [vel.z; lastline];
+>     end
+230,235c240,247
+< sraw   = str2num(cell2mat(thelines(nds3:nde3)));
+< dsp.z  = reshape(sraw',nld3*ncol,1);
+< nspare = rem(nd3,10);   % If last line is not fully populated ...
+< if nspare~=0; nde3      = nde3+1; 
+<               lastline = str2num(cell2mat(thelines(nde3)))';
+<               dsp.z   = [dsp.z; lastline];
+---
+> if nde3>nds3
+>     sraw   = str2num(cell2mat(thelines(nds3:nde3)));
+>     dsp.z  = reshape(sraw',nld3*ncol,1);
+>     nspare = rem(nd3,10);   % If last line is not fully populated ...
+>     if nspare~=0; nde3      = nde3+1;
+>         lastline = str2num(cell2mat(thelines(nde3)))';
+>         dsp.z   = [dsp.z; lastline];
+>     end
+240d251
+< 
+245,246c256,257
+< s.vel = vel;
+< s.dsp = dsp;
+\ No newline at end of file
+---
+> if exist('vel','var'); s.vel = vel; end
+> if exist('dsp','var'); s.dsp = dsp; end
+\ No newline at end of file

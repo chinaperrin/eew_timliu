@@ -1,0 +1,38 @@
+function [neic_idx] = find_neic_list_entry(eqName,neicList,maxDist_t0)
+
+
+% NEIC dates in seconds
+n         = numel(neicList.eqLat);
+neicDates = zeros(n,1);
+for i = 1:n
+    
+    % Compute all neic time in serial dates / seconds  
+    seconds      = neicList.time{i};
+    seconds      = str2double(seconds(1:2))*3600 + str2double(seconds(4:5))*60 + str2double(seconds(7:9));
+    neicDates(i) = datenum(neicList.date(i))*24*3600 + seconds; 
+end
+
+neicDates = neicDates + 9*3600;               % Time difference (as calibrated 
+                                              % with the Tohoku event)
+
+% k-net date in seconds
+yr    = eqName(1:4);
+mt    = eqName(5:6);
+dy    = eqName(7:8);
+hr    = eqName(9:10);
+mn    = eqName(11:12);
+sc    = eqName(13:14);
+kDate = datenum([yr,'/',mt,'/',dy,',',hr,':',mn,':',sc])*24*3600;
+
+dt_dates      = abs(kDate - neicDates);
+[dt,neic_idx] = min(dt_dates);
+
+    fprintf(1,'How about doubles?\n')
+    
+if (dt>maxDist_t0)
+    neic_idx = [];
+    fprintf(1,['Closest event in neic-list is more than ',num2str(maxDist_t0),'sec apart\n'])
+else
+    1+1;
+end
+

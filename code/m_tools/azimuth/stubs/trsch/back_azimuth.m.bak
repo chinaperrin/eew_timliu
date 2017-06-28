@@ -1,0 +1,195 @@
+clear all
+
+% Determine RT-backazimuth with 
+% ND-method
+% SH-method
+% Lockman and Allen 2005, BSSA
+
+% Compare to true backazimuth, as computed with hypocenter corrdinates
+
+
+addpath(genpath('../'))
+addpath(genpath('../m_tools/'))
+addpath(genpath('../../../../../../gmpe/'))
+addpath(genpath('../../../../../matlab/fct_downloads/'))
+
+ftSize = 12; 
+
+% Socal 90ies
+dataSetNames = {'/scratch/memeier/VS/data/wform/socal/scsn_900101_011231/9bands_i24/'}; 
+[TraceList,SkipList,fc,snpLength,nsnp] = import_fbOut(dataSetNames);
+
+% Print/plot a summary of kept and skipped traces
+[summary] = summary_fB(TraceList,SkipList,1);
+
+% Make a copy of all file names so that related (e.g. corecorded) files can
+% still be found, e.g. for plotting purposes.
+[nameList] = TraceList.cloneNameList;
+
+fprintf(1,'\n\n\n\t\tTemporarily filling SNR-matrix up with zeros ...\n\n\n')
+nnn           = size(TraceList.m,1)-size(TraceList.snr,1);
+TraceList.snr = [TraceList.snr; zeros(nnn,1)];
+
+% Extract records from within 100km
+idx       = find(TraceList.hypDist<50);
+TraceList = TraceList.selectSubList(idx);
+
+% SoCal
+stFileName         = '../../../../data/stations/eewvs-stations_allCali.hinv.fmtd2';
+[stationList_cali] = import_stationlist_fB(stFileName);
+
+%% Going through TraceList
+n = numel(TraceList.m);
+for i = 1:n
+    
+    
+    % 1. Load wform and meta data
+    % ---------------------------
+    [status,result] = unix(['ls ',TraceList.fullName{i}]);
+    
+    if (status==0)
+        
+        % File found
+        traceFullName = TraceList.fullName{i};
+        slash_idx     = regexp(traceFullName,'/');
+        traceName     = traceFullName(slash_idx(end)+1:end);
+     
+        % Find corecs
+        [idx_Z,idx_E,idx_N] = find_corecs_scsn(traceFullName,TraceList);
+        
+        ornt   = TraceList.orntCode{i};
+        instr  = TraceList.instrCode{i};
+        m      = TraceList.m(i);
+        hD     = TraceList.hypDist(i);
+        pgv    = TraceList.pgv(i);
+        stLat  = TraceList.stationLat(i);
+        stLon  = TraceList.stationLon(i);
+        eqLat  = TraceList.eqLat(i);
+        eqLon  = TraceList.eqLon(i);
+        eqDate = TraceList.eqDate{i};
+
+        fprintf(1,[num2str(i),'. out of ',num2str(n),' waveform-files found\n'])
+        fprintf(1,['   ',num2str(m),'M @ ',num2str(hD),'km\n'])
+        titleStr = strcat([traceName,': M',num2str(m),' @ ',num2str(hD,'%4.0f'),'km, on ',eqDate]);
+     
+        % Read traces
+        [S,sraw,meta] = read_any_trace_proc(TraceList.fullName{idx_Z},TraceList);
+        z             = S.dsp;
+        pxIdx         = meta.pxIdx;         % sraw is as read from sac-file. NaN were removed (warning message in stdout),
+        tz            = meta.t;             % and amplitudes have been devided by 100 to turn [cm/s] into [m/s] or [cm/s^2] into [m/s^2]
+        sr            = meta.sr;
+        
+        [S,sraw,meta] = read_any_trace_proc(TraceList.fullName{idx_E},TraceList);
+        e             = S.dsp;
+        te            = meta.t;
+        
+        [S,sraw,meta] = read_any_trace_proc(TraceList.fullName{idx_N},TraceList);
+        n             = S.dsp;
+        tn            = meta.t;
+        
+        [z,n,e,t,pxIdx] = harmonise_signal_times(z,n,e,tz,te,tn,pxIdx);
+        clear tz tn te
+        
+        [Z,~,~] = butter_pass_tdomain_f(z,3,999,TraceList.sRate(i),7,100,1);
+        [E,~,~] = butter_pass_tdomain_f(e,3,999,TraceList.sRate(i),7,100,1);
+        [N,~,~] = butter_pass_tdomain_f(n,3,999,TraceList.sRate(i),7,100,1);
+
+        % 2. Compute true backazimuth
+        % ---------------------------
+        [bAz,ray] = get_backAzimuth(eqLat,eqLon,stLat,stLon);
+        
+        
+        % 3. Compute real time backazimuth
+        % --------------------------------
+
+        % a. Lockman and Allen, 2005, BSSA
+        alpha  = 0.5;
+        nz     = numel(Z);
+        theta1 = zeros(nz,1);
+        R_ze   = zeros(nz,1);
+        R_zn   = zeros(nz,1);
+        ns     = sr*5;
+        
+        for is = pxIdx:pxIdx+ns;
+            R_ze(is)   = alpha*R_ze(is-1) + Z(is)*E(is);
+            R_zn(is)   = alpha*R_zn(is-1) + Z(is)*N(is);
+            theta1(is) = rad2deg(pi + atan(R_ze(is)/R_zn(is)));
+        end
+        rtBaz1 = mean(theta1(pxIdx:pxIdx+ns));
+
+        % b. Nicolas Deichmann
+        tw = 1;  % Time over which angles are estimated
+        [azimuth,incidence] = azimuth_incidence(N,E,Z,t,1/sr,pxIdx,tw,1);
+
+        
+        % c. Seismic Handler
+
+        
+        % back-azimuth errors
+        dbaz1 = bAz - rtBaz1; 
+        
+        % 4. Plot 
+
+        figure(246); clf; hold on
+
+        % Time window
+        sIdx   = round(pxIdx - 2*sr);      % t-index of window-start
+        eIdx   = round(pxIdx + 5*sr);      % t-index of window-end
+        ymax   = 1.05*max([max(abs(Z(sIdx:eIdx))),max(abs(N(sIdx:eIdx))),max(abs(E(sIdx:eIdx)))]);
+        
+        
+        % Vertical  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+        subplot(4,3,1:2); hold on
+        plot(t,Z,'k')
+        line([t(pxIdx) t(pxIdx)],[-ymax ymax],'color','r')
+        ylabel('UD [m]','fontSize',ftSize)
+        axis([t(sIdx) t(eIdx) -ymax ymax])
+        
+        % North/South -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+        subplot(4,3,4:5); hold on
+        plot(t,N,'k')
+        line([t(pxIdx) t(pxIdx)],[-ymax ymax],'color','r')
+        ylabel('NS [m]','fontSize',ftSize)
+        axis([t(sIdx) t(eIdx) -ymax ymax])
+        
+        % East/West  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+        subplot(4,3,7:8); hold on
+        plot(t,E,'k')
+        line([t(pxIdx) t(pxIdx)],[-ymax ymax],'color','r')
+        ylabel('EW [m]','fontSize',ftSize)
+        axis([t(sIdx) t(eIdx) -ymax ymax])
+        xlabel('Time [sec]','fontSize',ftSize)
+        
+        % Map  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+        %subplot(4,3,[3,6])
+        gcf; clf;
+        station_map(stationList_cali)
+        dlat = 0.5; dlon = 0.5;
+        set(gca,'xlim',[stLon-dlon,stLon+dlon],'ylim',[stLat-dlat,stLat+dlat])
+        hold on
+        h1 = plot(stLon,stLat,'vk','markerFaceColor','y','markerSize',15);
+        h2 = plot(eqLon,eqLat,'pk','markerFaceColor','r','markerSize',15);
+        legend([h1,h2],'Station','Epicenter')
+        title(['True back-azimuth: ',num2str(bAz,'%3.0f'),' [deg]'])
+        %arrow([stLon,stLat],[eqLon,eqLat],'width',3,'faceColor','r')
+        
+        dlat = stLat - eqLat;
+        dlon = stLon - eqLon;
+        dl   = sqrt(dlat*dlat + dlon*dlon);
+        
+        % True back-azimuth
+        arrowPt.lon = stLon + dl/1.2*sin(deg2rad(bAz));
+        arrowPt.lat = stLat + dl/1.2*cos(deg2rad(bAz));
+        arrow([stLon,stLat],[arrowPt.lon,arrowPt.lat],'width',3,'faceColor','r')
+        
+        % Lockman and Allen, 2005, BSSA
+        arrowPt1.lon = stLon + dl/2*sin(deg2rad(rtBaz1));
+        arrowPt1.lat = stLat + dl/2*cos(deg2rad(rtBaz1));
+        arrow([stLon,stLat],[arrowPt1.lon,arrowPt1.lat],'width',2,'faceColor','b')
+            
+        1+1;
+        
+    end
+end
+
+        
