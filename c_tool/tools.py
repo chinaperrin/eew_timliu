@@ -11,12 +11,18 @@ from extra import *
 def call():
     '''used to repeatedly call different comparator utilities'''
     
-    g_list = []
-    for i in range(1,10):
-        a1 = 'onsiteBazi_sentype_is_LN_0%d.txt' %i
-        a2 = 'deichmann_sentype_is_LN_0%d.txt' %i
-        a3 = 'sac_sentype_is_LN_0%d.txt' %i
-        a4 = 'la05_sentype_is_LN_0%d.txt' %i 
+    y_list = ['deichmann_sentype_is_H_01_abs_err.txt',\
+              'la05_sentype_is_H_01_abs_err.txt',\
+              'onsiteBazi_sentype_is_H_01_abs_err.txt',\
+              'sac_sentype_is_H_01_abs_err.txt']
+    x_list = ['epi_sentype_is_H_01.txt', 'mag_sentype_is_H_01.txt', \
+              'snr_sentype_is_H_01.txt']
+    i = 0
+    for y in y_list:
+        for x in x_list:
+            two_d(x, y, y[:-28] + 'vs.' + x[:4], x[:4], 'Back Azimuth Error')
+            i += 1
+            print('Graph: ', i)
         
         
     return

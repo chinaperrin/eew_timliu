@@ -60,7 +60,7 @@ def one_d(err, title, x_label, subplot=0, color = 'deepskyblue', path = 'errors'
     plt.grid(True)
 
     os.chdir(os.path.join(HOME, 'g_out'))  #directory to dump images
-    plt.savefig()
+    plt.savefig(err[:-4])
     os.chdir(os.path.join(HOME, 'c_tool')) #return to directory
     
     #function returns - does not actually show plot!
