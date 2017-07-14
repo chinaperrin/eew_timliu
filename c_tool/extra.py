@@ -50,7 +50,7 @@ def gen_script(var, name, i):
     
     os.chdir(os.path.join(HOME, 'code'))
     
-    temp = open('extract_temp.m', 'r')    #open extractor template
+    temp = open('extract_temp3.m', 'r')    #open extractor template
     
     extract = open('extractor.m', 'w')    #open extractor script
     t_string = temp.read()

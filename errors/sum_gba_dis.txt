@@ -1,0 +1,22 @@
+GBA_onset_00_ex10.txt
+Mean Error: 15.8320
+GBA_onset_01_ex10.txt
+Mean Error: 16.0749
+GBA_onset_02_ex10.txt
+Mean Error: 16.5128
+GBA_onset_03_ex10.txt
+Mean Error: 16.7522
+GBA_onset_04_ex10.txt
+Mean Error: 16.8894
+GBA_onset_05_ex10.txt
+Mean Error: 16.8785
+GBA_onset_06_ex10.txt
+Mean Error: 16.6517
+GBA_onset_07_ex10.txt
+Mean Error: 16.4235
+GBA_onset_08_ex10.txt
+Mean Error: 16.0493
+GBA_onset_09_ex10.txt
+Mean Error: 15.6295
+GBA_onset_10_ex10.txt
+Mean Error: 15.1502

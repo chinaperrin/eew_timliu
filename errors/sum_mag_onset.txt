@@ -1,0 +1,26 @@
+GBA_mag_onset_00.txt
+Mean Error: 0.3418
+GBA_mag_onset_01.txt
+Mean Error: 0.3345
+GBA_mag_onset_02.txt
+Mean Error: 0.3227
+GBA_mag_onset_00.txt
+Mean Error: 0.3418
+GBA_mag_onset_01.txt
+Mean Error: 0.3345
+GBA_mag_onset_02.txt
+Mean Error: 0.3227
+GBA_mag_onset_03.txt
+Mean Error: 0.3105
+GBA_mag_onset_04.txt
+Mean Error: 0.3051
+GBA_mag_onset_05.txt
+Mean Error: 0.3054
+GBA_mag_onset_06.txt
+Mean Error: 0.3094
+GBA_mag_onset_07.txt
+Mean Error: 0.3570
+GBA_mag_onset_08.txt
+Mean Error: 0.4663
+GBA_mag_onset_09.txt
+Mean Error: 0.6513
